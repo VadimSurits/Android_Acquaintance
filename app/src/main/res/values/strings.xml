@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Android_Acquaintance</string>
+    <string name="editText_hint">Здесь нужно что-то ввести</string>
+    <string name="buttonMain_text">чудо-кнопка</string>
+    <string name="CBmain_hint">Помечаем / снимаем галочку</string>
+    <string name="SwitchMain_hint">Переключатель</string>
 </resources>
