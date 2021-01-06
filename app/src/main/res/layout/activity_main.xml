@@ -12,23 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="cursive"
-        android:paddingTop="@dimen/large_padding"
-        android:paddingBottom="@dimen/default_padding"
+        android:ems="5"
+        android:fontFamily="sans-serif-black"
         android:text="Hello World!"
         android:textColor="@color/purple_700"
-        android:textSize="@dimen/giantTextSize" />
+        android:textSize="30sp" />
 
     <EditText
         android:id="@+id/ETmain"
-        android:layout_width="@dimen/editText_large_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:autofillHints=""
+        android:ems="12"
         android:hint="@string/editText_hint"
         android:inputType="text"
-        android:paddingTop="@dimen/large_padding"
-        android:paddingBottom="@dimen/default_padding"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="@dimen/defaultTextSize" />
@@ -38,9 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/default_margin"
-        android:paddingTop="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding"
+        android:ems="10"
         android:text="@string/buttonMain_text"
         android:textSize="@dimen/defaultTextSize" />
 
@@ -49,13 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/large_margin"
         android:background="#2196F3"
+        android:ems="11"
         android:hint="@string/SwitchMain_hint"
         android:paddingStart="@dimen/default_padding"
-        android:paddingTop="@dimen/default_padding"
         android:paddingEnd="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding"
         android:textColorHint="@color/black"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -64,14 +58,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/large_margin"
+        android:layout_marginTop="@dimen/default_margin"
         android:background="#F3EDED"
         android:checked="true"
+        android:ems="16"
         android:hint="@string/CBmain_hint"
         android:paddingStart="@dimen/default_padding"
-        android:paddingTop="@dimen/default_padding"
         android:paddingEnd="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding"
         android:textColorHint="@color/black" />
 
     <ToggleButton
@@ -79,10 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/large_margin"
-        android:background="#FF5722"
-        android:paddingTop="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding" />
+        android:layout_marginTop="@dimen/default_margin"
+        android:background="#FF5722" />
 
     <CalendarView
         android:id="@+id/CalendarMain"
