@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Android_Acquaintance</string>
+    <string name="editText_hint">Здесь нужно что-то ввести</string>
+    <string name="buttonMain_text">чудо-кнопка</string>
+    <string name="CBmain_hint">Помечаем / снимаем галочку</string>
+    <string name="SwitchMain_hint">Переключатель</string>
+    <string name="editText_hintPersonName">Здесь нужно ввести Имя</string>
+    <string name="editText_hintPhone">Здесь нужно ввести номер телефона</string>
+    <string name="editText_hintNumber">Здесь нужно ввести цифры</string>
+    <string name="editText_hintTextPassword">Здесь нужно ввести текстовый пароль</string>
+    <string name="editText_hintEmail">Здесь нужно ввести электронный адрес</string>
+    <string name="editText_hintDate">Здесь нужно ввести дату</string>
 </resources>
