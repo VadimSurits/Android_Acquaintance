@@ -1,26 +1,22 @@
 <resources>
     <string name="app_name">Android_Acquaintance</string>
-    <string name="editText_hint">Здесь нужно что-то ввести</string>
-    <string name="buttonMain_text">чудо-кнопка</string>
-    <string name="CBmain_hint">Помечаем / снимаем галочку</string>
-    <string name="SwitchMain_hint">Переключатель</string>
-    <string name="Button_1">1</string>
-    <string name="Button_2">2</string>
-    <string name="Button_7">7</string>
-    <string name="Button_8">8</string>
-    <string name="Button_9">9</string>
-    <string name="Button_Percent">%</string>
-    <string name="Button_Erase">></string>
-    <string name="Button_4">4</string>
-    <string name="Button_5">5</string>
-    <string name="Button_6">6</string>
-    <string name="Button_Multiply">X</string>
-    <string name="Button_Divide">/</string>
-    <string name="Button_3">3</string>
-    <string name="Button_Plus">+</string>
-    <string name="Button_Minus">-</string>
-    <string name="Button_0">0</string>
-    <string name="Button_00">00</string>
-    <string name="Button_Dot">.</string>
-    <string name="Button_Equal">=</string>
+    <string name="button_1">1</string>
+    <string name="button_2">2</string>
+    <string name="button_7">7</string>
+    <string name="button_8">8</string>
+    <string name="button_9">9</string>
+    <string name="button_percent">%</string>
+    <string name="button_erase">></string>
+    <string name="button_4">4</string>
+    <string name="button_5">5</string>
+    <string name="button_6">6</string>
+    <string name="button_multiply">X</string>
+    <string name="button_divide">/</string>
+    <string name="button_3">3</string>
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
+    <string name="button_0">0</string>
+    <string name="button_00">00</string>
+    <string name="button_dot">.</string>
+    <string name="button_equal">=</string>
 </resources>
