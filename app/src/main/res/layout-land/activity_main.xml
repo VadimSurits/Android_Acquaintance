@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/main_screen"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/main_screen_width_land"
         android:layout_height="@dimen/main_screen_height"
         android:layout_marginStart="@dimen/main_screen_start_end_margin"
-        android:layout_marginTop="@dimen/main_screen_top_margin"
+        android:layout_marginTop="@dimen/main_screen_top_margin_land"
         android:layout_marginEnd="@dimen/main_screen_start_end_margin"
         android:background="@color/white"
         android:gravity="center"
@@ -45,9 +45,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_7"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/button_first_row_margin_top"
+        android:layout_marginTop="@dimen/button_first_row_margin_top_land"
         android:text="@string/button_7"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_8"
@@ -58,10 +58,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_8"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_first_row_margin_top"
+        android:layout_marginTop="@dimen/button_first_row_margin_top_land"
         android:text="@string/button_8"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@+id/button_9"
@@ -72,10 +72,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_9"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_first_row_margin_top"
+        android:layout_marginTop="@dimen/button_first_row_margin_top_land"
         android:text="@string/button_9"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_c"
@@ -86,10 +86,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_c"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_first_row_margin_top"
+        android:layout_marginTop="@dimen/button_first_row_margin_top_land"
         android:text="@string/button_c"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_erase"
@@ -100,10 +100,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_erase"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_first_row_margin_top"
+        android:layout_marginTop="@dimen/button_first_row_margin_top_land"
         android:text="@string/button_erase"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/main_screen"
@@ -114,9 +114,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_4"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_4"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_5"
@@ -127,10 +127,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_5"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_5"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@+id/button_6"
@@ -141,10 +141,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_6"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_6"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_multiply"
@@ -155,10 +155,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_multiply"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_multiply"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_divide"
@@ -169,10 +169,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_divide"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_divide"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/main_screen"
@@ -183,9 +183,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_1"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_1"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_2"
@@ -196,10 +196,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_2"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_2"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@+id/button_3"
@@ -210,10 +210,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_3"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_3"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_plus"
@@ -224,10 +224,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_plus"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_plus"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/button_m"
@@ -239,10 +239,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_minus"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_minus"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/main_screen"
@@ -253,9 +253,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_0"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_0"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toStartOf="@id/button_00"
@@ -266,10 +266,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_00"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_00"
         android:textSize="@dimen/button_2symbols_text_size"
         app:layout_constraintEnd_toStartOf="@+id/button_m"
@@ -280,10 +280,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_m"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_m"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/button_3"
@@ -294,10 +294,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_equal"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin_start"
-        android:layout_marginTop="@dimen/button_second_row_margin_top"
+        android:layout_marginTop="@dimen/button_second_row_margin_top_land"
         android:text="@string/button_equal"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/main_screen"

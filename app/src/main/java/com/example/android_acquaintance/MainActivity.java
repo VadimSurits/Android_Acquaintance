@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isDivideSymbolPressed;
     private boolean isEqualSymbolPressed;
     private CalculatorScreen calculatorScreen;
+    private final static String KeyCalculatorScreen = "CalculatorScreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         calculatorScreen = new CalculatorScreen();
         initView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KeyCalculatorScreen, calculatorScreen);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        calculatorScreen = savedInstanceState.getParcelable(KeyCalculatorScreen);
+        restoreScreen();
     }
 
     private void initView() {
@@ -58,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_1))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_2:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -69,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_2))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_3:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -80,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_3))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_4:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -91,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_4))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_5:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -102,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_5))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_6:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -113,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_6))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_7:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -124,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_7))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_8:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -135,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_8))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_9:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -146,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_9))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_0:
                 if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
@@ -157,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_0))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_00:
                 if (String.valueOf(getIncomingValue()).length() <= (Integer.parseInt(getString
@@ -168,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ("%d%s", getIncomingValue(), getString(R.string.button_00))));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_erase:
                 if (getIncomingValue() != Long.parseLong(getString(R.string.button_0)) &&
@@ -180,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         setIncomingValueAndMainScreenValue(Long.parseLong(result));
                     }
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_c:
                 setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
@@ -192,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isMultiplySymbolPressed = false;
                 isDivideSymbolPressed = false;
                 isEqualSymbolPressed = false;
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_m:
                 if (getMemoryValue() == Long.parseLong(getString(R.string.button_0))
@@ -205,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     setMemoryValue(0);
                     setIsEqualSymbolPressed();
                 }
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_plus:
                 if (isEqualSymbolPressed) {
@@ -221,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 setMathSymbol(getString(R.string.button_plus));
                 setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_minus:
                 if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
@@ -239,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 setMathSymbol(getString(R.string.button_minus));
                 setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_multiply:
                 if (isEqualSymbolPressed) {
@@ -255,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 setMathSymbol(getString(R.string.button_multiply));
                 setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_divide:
                 if (isEqualSymbolPressed) {
@@ -271,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 setMathSymbol(getString(R.string.button_divide));
                 setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_equal:
                 setSecondValue(getIncomingValue());
@@ -289,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 setIncomingValue(Long.parseLong(getString(R.string.button_0)));
                 setIsEqualSymbolPressed();
+                setCurrentScreenState(getMainScreenText());
                 break;
         }
     }
@@ -360,6 +394,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return l;
     }
 
+    public void setCurrentScreenState(String s) {
+        calculatorScreen.setCurrentScreenState(s);
+    }
+
     public void setIncomingValue(long l) {
         calculatorScreen.setIncomingValue(l);
     }
@@ -397,6 +435,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculatorScreen.setMathSymbol(s);
     }
 
+    public String getCurrentScreenState() {
+        return String.valueOf(mainScreen.getText());
+    }
+
     public String getMainScreenText() {
         return String.valueOf(mainScreen.getText());
     }
@@ -407,6 +449,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public long getMemoryValue() {
         return calculatorScreen.getMemoryValue();
+    }
+
+    public long getResult() {
+        return calculatorScreen.getResult();
     }
 
     public String getMathSymbol() {
@@ -453,5 +499,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isEqualSymbolPressed = true;
     }
 
-
+    public void restoreScreen() {
+        setMainScreenText(calculatorScreen.getCurrentScreenState());
+        if (getMemoryValue() != Long.parseLong(getString(R.string.button_0))) {
+            memoryScreen.setText(getString(R.string.button_m));
+        }
+    }
 }
