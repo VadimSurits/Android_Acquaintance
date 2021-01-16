@@ -8,5 +8,10 @@
     <dimen name="button_margin_start">15dp</dimen>
     <dimen name="button_width">55dp</dimen>
     <dimen name="button_second_row_margin_top">30dp</dimen>
-    <dimen name="button_2symbols_text_size">17sp</dimen>
+    <dimen name="button_2symbols_text_size">16sp</dimen>
+    <dimen name="main_screen_text_size">40sp</dimen>
+    <dimen name="main_screen_padding_end">10dp</dimen>
+    <dimen name="memory_screen_height">30dp</dimen>
+    <dimen name="memory_screen_width">30dp</dimen>
+    <dimen name="memory_screen_text_size">18sp</dimen>
 </resources>

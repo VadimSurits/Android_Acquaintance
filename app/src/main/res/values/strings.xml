@@ -5,18 +5,21 @@
     <string name="button_7">7</string>
     <string name="button_8">8</string>
     <string name="button_9">9</string>
-    <string name="button_percent">%</string>
+    <string name="button_c">C</string>
     <string name="button_erase">></string>
     <string name="button_4">4</string>
     <string name="button_5">5</string>
     <string name="button_6">6</string>
-    <string name="button_multiply">X</string>
+    <string name="button_multiply">x</string>
     <string name="button_divide">/</string>
     <string name="button_3">3</string>
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>
     <string name="button_0">0</string>
     <string name="button_00">00</string>
-    <string name="button_dot">.</string>
+    <string name="button_m">M</string>
     <string name="button_equal">=</string>
+    <string name="available_screen_space_for_digits">13</string>
+    <string name="math_symbol_right_after_equal">Сначала вам нужно ввести число</string>
+    <string name="empty_symbol" />
 </resources>
