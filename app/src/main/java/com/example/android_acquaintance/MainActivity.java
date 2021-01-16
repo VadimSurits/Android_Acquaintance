@@ -3,7 +3,6 @@ package com.example.android_acquaintance;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,14 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private final String TAG = "Android_Acquaintance - ";
     private TextView mainScreen;
     private TextView memoryScreen;
+    private boolean isPlusSymbolPressed;
+    private boolean isMinusSymbolPressed;
+    private boolean isMultiplySymbolPressed;
+    private boolean isDivideSymbolPressed;
+    private boolean isEqualSymbolPressed;
     private CalculatorScreen calculatorScreen;
-    private boolean equalIsDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,339 +36,260 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setMainScreenText(getString(R.string.button_0));
         }
         initButtonsClickListener();
-        equalIsDone = false;
+        isPlusSymbolPressed = false;
+        isMinusSymbolPressed = false;
+        isMultiplySymbolPressed = false;
+        isDivideSymbolPressed = false;
+        isEqualSymbolPressed = false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "DefaultLocale"})
     @Override
     public void onClick(View v) {
-        if (String.valueOf(getCalculatorScreenValue()).length() <= R.string.available_screen_space_for_digits) {
-            switch (v.getId()) {
-                case R.id.button_1:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_1));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_1));
+        switch (v.getId()) {
+            case R.id.button_1:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_1)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_1));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_1))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_2:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_2));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_2));
+                }
+                break;
+            case R.id.button_2:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_2)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_2));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_2))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_3:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_3));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_3));
+                }
+                break;
+            case R.id.button_3:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_3)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_3));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_3))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_4:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_4));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_4));
+                }
+                break;
+            case R.id.button_4:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_4)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_4));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_4))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_5:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_5));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_5));
+                }
+                break;
+            case R.id.button_5:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_5)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_5));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_5))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_6:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_6));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_6));
+                }
+                break;
+            case R.id.button_6:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_6)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_6));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_6))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_7:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_7));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_7));
+                }
+                break;
+            case R.id.button_7:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_7)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_7));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_7))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_8:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_8));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_8));
+                }
+                break;
+            case R.id.button_8:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_8)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_8));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_8))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_9:
-                    if (getMathSymbol().equals(getString(R.string.button_equal))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_9));
-                        setMathSymbol(getString(R.string.empty_symbol));
-                    } else if (getCalculatorScreenValue() == Long.parseLong(getString(R.string.button_0))
-                            || getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_9));
+                }
+                break;
+            case R.id.button_9:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_9)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_9));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_9))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_0:
-                    if (getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorScreenValue() != Long.parseLong(getString(R.string.button_0))
-                            || calculatorScreen.isSecondValue()
-                            && !getMainScreenText().equals(getString(R.string.button_0))) {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_0));
+                }
+                break;
+            case R.id.button_0:
+                if (String.valueOf(getIncomingValue()).length() <= Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits))) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
                     } else {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_0))));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
+                }
+                break;
+            case R.id.button_00:
+                if (String.valueOf(getIncomingValue()).length() <= (Integer.parseInt(getString
+                        (R.string.available_screen_space_for_digits)) - 1)) {
+                    if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
+                    } else {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(String.format
+                                ("%d%s", getIncomingValue(), getString(R.string.button_00))));
                     }
-                    break;
-                case R.id.button_00:
-                    if (getMainScreenText().endsWith(getString(R.string.button_plus))
-                            || getMainScreenText().endsWith(getString(R.string.button_minus))
-                            || getMainScreenText().endsWith(getString(R.string.button_divide))
-                            || getMainScreenText().endsWith(getString(R.string.button_multiply))) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorScreenValue() != Long.parseLong(getString(R.string.button_0))
-                            || calculatorScreen.isSecondValue()
-                            && !getMainScreenText().equals(getString(R.string.button_0))) {
-                        setCalculatorScreenValueAndMainScreenText(getCalculatorScreenValue() +
-                                getString(R.string.button_00));
+                }
+                break;
+            case R.id.button_erase:
+                if (getIncomingValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        !getMainScreenText().equals(getString(R.string.button_0))) {
+                    char[] data = String.valueOf(getIncomingValue()).toCharArray();
+                    String result = String.copyValueOf(data, 0, data.length - 1);
+                    if (result.equals("") || result.equals(getString(R.string.button_minus))) {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
+                    } else {
+                        setIncomingValueAndMainScreenValue(Long.parseLong(result));
                     }
-                    if (equalIsDone) {
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_erase:
-                    if (getCalculatorScreenValue() != Long.parseLong(getString(R.string.button_0))) {
-                        char[] data = String.valueOf(getCalculatorScreenValue()).toCharArray();
-                        String result = String.copyValueOf(data, 0, data.length - 1);
-                        if (result.equals("") || result.equals(getString(R.string.button_minus))) {
-                            setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                        } else {
-                            setCalculatorScreenValueAndMainScreenText(result);
-                        }
-                    }
-                    break;
-                case R.id.button_c:
-                    setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    resetTempValues();
-                    equalIsDone = false;
-                    break;
-                case R.id.button_m:
-                    if (calculatorScreen.getMemoryValue() == 0
-                            && !getMainScreenText().equals(getString(R.string.button_0))) {
-                        String result = getMainScreenText();
-                        calculatorScreen.setMemoryValue(Long.parseLong(result));
-                        memoryScreen.setText(getString(R.string.button_m));
-                        resetTempValues();
-                        equalIsDone = false;
-                    } else if (calculatorScreen.getMemoryValue() != 0) {
-                        setCalculatorScreenValueAndMainScreenText(String.valueOf
-                                (calculatorScreen.getMemoryValue()));
-                        memoryScreen.setText("");
-                        calculatorScreen.setMemoryValue(0);
-                        setCalculatorFirstValue(0);
-                        calculatorScreen.setIsSecondValue(false);
-                        equalIsDone = false;
-                    }
-                    break;
-                case R.id.button_plus:
-                    if (equalIsDone) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorFirstValue() == 0 && !calculatorScreen.isSecondValue()) {
-                        setCalculatorFirstValue(getCalculatorScreenValue());
-                        try {
-                            setMainScreenText(getString(R.string.button_plus));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, "button_plus");
-                        }
-                        setMathSymbol(getString(R.string.button_plus));
-                        calculatorScreen.setIsSecondValue(true);
-                    }
-                    break;
-                case R.id.button_minus:
-                    if (equalIsDone) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorFirstValue() == 0 && !calculatorScreen.isSecondValue()) {
-                        setCalculatorFirstValue(getCalculatorScreenValue());
-                        try {
-                            setMainScreenText(getString(R.string.button_minus));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, "button_minus");
-                        }
-                        setMathSymbol(getString(R.string.button_minus));
-                        calculatorScreen.setIsSecondValue(true);
-                    }
-                    break;
-                case R.id.button_multiply:
-                    if (equalIsDone) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorFirstValue() == 0 && !calculatorScreen.isSecondValue()) {
-                        setCalculatorFirstValue(getCalculatorScreenValue());
-                        try {
-                            setMainScreenText(getString(R.string.button_multiply));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, "button_multiply");
-                        }
-                        setMathSymbol(getString(R.string.button_multiply));
-                        calculatorScreen.setIsSecondValue(true);
-                    }
-                    break;
-                case R.id.button_divide:
-                    if (equalIsDone) {
-                        setCalculatorScreenValueAndMainScreenText(getString(R.string.button_0));
-                    } else if (getCalculatorFirstValue() == 0 && !calculatorScreen.isSecondValue()) {
-                        setCalculatorFirstValue(getCalculatorScreenValue());
-                        try {
-                            setMainScreenText(getString(R.string.button_divide));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, "button_divide");
-                        }
-                        setMathSymbol(getString(R.string.button_divide));
-                        calculatorScreen.setIsSecondValue(true);
-                    }
-                    break;
-                case R.id.button_equal:
-                    if (getMathSymbol().equals(getString(R.string.button_plus))
-                            && calculatorScreen.isSecondValue()) {
-                        Long result = Long.sum(getCalculatorFirstValue(), getCalculatorScreenValue());
-                        setCalculatorScreenValueAndMainScreenText(String.valueOf(result));
-                        resetTempValues();
-                    } else if (getMathSymbol().equals(getString(R.string.button_minus))
-                            && calculatorScreen.isSecondValue()) {
-                        Long result = getCalculatorFirstValue() - getCalculatorScreenValue();
-                        setCalculatorScreenValueAndMainScreenText(String.valueOf(result));
-                        resetTempValues();
-                    } else if (getMathSymbol().equals(getString(R.string.button_multiply))
-                            && calculatorScreen.isSecondValue()) {
-                        Long result = getCalculatorFirstValue() * getCalculatorScreenValue();
-                        setCalculatorScreenValueAndMainScreenText(String.valueOf(result));
-                        resetTempValues();
-                    } else if (getMathSymbol().equals(getString(R.string.button_divide))
-                            && calculatorScreen.isSecondValue()) {
-                        if (getCalculatorScreenValue() != 0) {
-                            Long result = getCalculatorFirstValue() / getCalculatorScreenValue();
-                            if (getCalculatorFirstValue() % getCalculatorScreenValue() != 0) {
-                                try {
-                                    setCalculatorScreenValueAndMainScreenText(
-                                            String.format(Locale.getDefault(), "%d%s",
-                                                    result, ",.."));
-                                } catch (NumberFormatException e) {
-                                    Log.e(TAG, "button_equal - double_result");
-                                }
-                            } else {
-                                setCalculatorScreenValueAndMainScreenText(String.valueOf(result));
-                            }
-                        }
-                        resetTempValues();
-                    }
-                    equalIsDone = true;
-                    setMathSymbol(getString(R.string.button_equal));
-                    break;
-            }
+                }
+                break;
+            case R.id.button_c:
+                setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
+                setFirstValue(Long.parseLong(getString(R.string.button_0)));
+                setSecondValue(Long.parseLong(getString(R.string.button_0)));
+                setResult(Long.parseLong(getString(R.string.button_0)));
+                setMathSymbol("");
+                isPlusSymbolPressed = false;
+                isMinusSymbolPressed = false;
+                isMultiplySymbolPressed = false;
+                isDivideSymbolPressed = false;
+                isEqualSymbolPressed = false;
+                break;
+            case R.id.button_m:
+                if (getMemoryValue() == Long.parseLong(getString(R.string.button_0))
+                        && !getMainScreenText().equals(getString(R.string.button_0))) {
+                    setMemoryValue(Long.parseLong(getMainScreenText()));
+                    memoryScreen.setText(getString(R.string.button_m));
+                    setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                } else if (getMemoryValue() != Long.parseLong(getString(R.string.button_0))) {
+                    setIncomingValueAndMainScreenValue(getMemoryValue());
+                    memoryScreen.setText("");
+                    setMemoryValue(0);
+                    setIsEqualSymbolPressed();
+                }
+                break;
+            case R.id.button_plus:
+                if (isEqualSymbolPressed) {
+                    setFirstValue(Long.parseLong(getMainScreenText()));
+                    setMainScreenText(getString(R.string.button_plus));
+                    setIsPlusSymbolPressed();
+                } else if (!isPlusSymbolPressed) {
+                    setFirstValue(getIncomingValue());
+                    setMainScreenText(getString(R.string.button_plus));
+                    setIsPlusSymbolPressed();
+                } else {
+                    setSecondValue(getIncomingValue());
+                    setIncomingValueAndMainScreenValue(getPlusActionResult());
+                }
+                setMathSymbol(getString(R.string.button_plus));
+                setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                break;
+            case R.id.button_minus:
+                if (getIncomingValue() == Long.parseLong(getString(R.string.button_0))) {
+                    setMainScreenText(getString(R.string.button_minus));
+                } else if (isEqualSymbolPressed) {
+                    setFirstValue(Long.parseLong(getMainScreenText()));
+                    setMainScreenText(getString(R.string.button_minus));
+                    setIsMinusSymbolPressed();
+                } else if (!isMinusSymbolPressed) {
+                    setFirstValue(getIncomingValue());
+                    setMainScreenText(getString(R.string.button_minus));
+                    setIsMinusSymbolPressed();
+                } else {
+                    setSecondValue(getIncomingValue());
+                    setIncomingValueAndMainScreenValue(getMinusActionResult());
+                }
+                setMathSymbol(getString(R.string.button_minus));
+                setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                break;
+            case R.id.button_multiply:
+                if (isEqualSymbolPressed) {
+                    setFirstValue(Long.parseLong(getMainScreenText()));
+                    setMainScreenText(getString(R.string.button_multiply));
+                    setIsMultiplySymbolPressed();
+                } else if (!isMultiplySymbolPressed) {
+                    setFirstValue(getIncomingValue());
+                    setMainScreenText(getString(R.string.button_multiply));
+                    setIsMultiplySymbolPressed();
+                } else {
+                    setSecondValue(getIncomingValue());
+                    setIncomingValueAndMainScreenValue(getMultiplyActionResult());
+                }
+                setMathSymbol(getString(R.string.button_multiply));
+                setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                break;
+            case R.id.button_divide:
+                if (isEqualSymbolPressed) {
+                    setFirstValue(Long.parseLong(getMainScreenText()));
+                    setMainScreenText(getString(R.string.button_divide));
+                    setIsDivideSymbolPressed();
+                } else if (!isDivideSymbolPressed) {
+                    setFirstValue(getIncomingValue());
+                    setMainScreenText(getString(R.string.button_divide));
+                    setIsDivideSymbolPressed();
+                } else {
+                    setSecondValue(getIncomingValue());
+                    setIncomingValueAndMainScreenValue(getDivideActionResult());
+                }
+                setMathSymbol(getString(R.string.button_divide));
+                setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                break;
+            case R.id.button_equal:
+                setSecondValue(getIncomingValue());
+                if (getMathSymbol().equals(getString(R.string.button_plus))) {
+                    setIncomingValueAndMainScreenValue(getPlusActionResult());
+                    setIsPlusSymbolPressed();
+                } else if (getMathSymbol().equals(getString(R.string.button_minus))) {
+                    setIncomingValueAndMainScreenValue(getMinusActionResult());
+                    setIsMinusSymbolPressed();
+                } else if (getMathSymbol().equals(getString(R.string.button_multiply))) {
+                    setIncomingValueAndMainScreenValue(getMultiplyActionResult());
+                    setIsMultiplySymbolPressed();
+                } else if (getMathSymbol().equals(getString(R.string.button_divide))) {
+                    setIncomingValueAndMainScreenValue(getDivideActionResult());
+                    setIsDivideSymbolPressed();
+                }
+                setIncomingValue(Long.parseLong(getString(R.string.button_0)));
+                setIsEqualSymbolPressed();
+                break;
         }
     }
 
@@ -414,27 +335,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         equal.setOnClickListener(this);
     }
 
-    public void resetTempValues() {
-        setCalculatorFirstValue(0);
-        setMathSymbol("");
-        calculatorScreen.setIsSecondValue(false);
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public long getPlusActionResult() {
+        long l = calculatorScreen.getPlusActionResult();
+        setFirstValue(l);
+        return l;
     }
 
-    public void setCalculatorScreenValueAndMainScreenText(String s) {
-        setMainScreenText(s);
-        setCalculatorScreenValue(Long.parseLong(s));
+    public long getMinusActionResult() {
+        long l = calculatorScreen.getMinusActionResult();
+        setFirstValue(l);
+        return l;
+    }
+
+    public long getMultiplyActionResult() {
+        long l = calculatorScreen.getMultiplyActionResult();
+        setFirstValue(l);
+        return l;
+    }
+
+    public long getDivideActionResult() {
+        long l = calculatorScreen.getDivideActionResult();
+        setFirstValue(l);
+        return l;
+    }
+
+    public void setIncomingValue(long l) {
+        calculatorScreen.setIncomingValue(l);
+    }
+
+    public void setIncomingValueAndMainScreenValue(long l) {
+        calculatorScreen.setIncomingValue(l);
+        setMainScreenText(l);
+    }
+
+    public void setMainScreenText(Long l) {
+        mainScreen.setText(String.valueOf(l));
     }
 
     public void setMainScreenText(String s) {
         mainScreen.setText(s);
     }
 
-    public void setCalculatorScreenValue(long i) {
-        calculatorScreen.setCalculatorScreenValue(i);
+    public void setFirstValue(long l) {
+        calculatorScreen.setFirstValue(l);
     }
 
-    public void setCalculatorFirstValue(long i) {
-        calculatorScreen.setFirstValue(i);
+    public void setSecondValue(long l) {
+        calculatorScreen.setSecondValue(l);
+    }
+
+    public void setMemoryValue(long l) {
+        calculatorScreen.setMemoryValue(l);
+    }
+
+    public void setResult(long l) {
+        calculatorScreen.setResult(l);
     }
 
     public void setMathSymbol(String s) {
@@ -445,15 +401,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return String.valueOf(mainScreen.getText());
     }
 
-    public long getCalculatorScreenValue() {
-        return calculatorScreen.getCalculatorScreenValue();
+    public long getIncomingValue() {
+        return calculatorScreen.getIncomingValue();
     }
 
-    public long getCalculatorFirstValue() {
-        return calculatorScreen.getFirstValue();
+    public long getMemoryValue() {
+        return calculatorScreen.getMemoryValue();
     }
 
     public String getMathSymbol() {
         return calculatorScreen.getMathSymbol();
     }
+
+    public void setIsPlusSymbolPressed() {
+        isPlusSymbolPressed = true;
+        isMinusSymbolPressed = false;
+        isMultiplySymbolPressed = false;
+        isDivideSymbolPressed = false;
+        isEqualSymbolPressed = false;
+    }
+
+    public void setIsMinusSymbolPressed() {
+        isPlusSymbolPressed = false;
+        isMinusSymbolPressed = true;
+        isMultiplySymbolPressed = false;
+        isDivideSymbolPressed = false;
+        isEqualSymbolPressed = false;
+    }
+
+    public void setIsMultiplySymbolPressed() {
+        isPlusSymbolPressed = false;
+        isMinusSymbolPressed = false;
+        isMultiplySymbolPressed = true;
+        isDivideSymbolPressed = false;
+        isEqualSymbolPressed = false;
+    }
+
+    public void setIsDivideSymbolPressed() {
+        isPlusSymbolPressed = false;
+        isMinusSymbolPressed = false;
+        isMultiplySymbolPressed = false;
+        isDivideSymbolPressed = true;
+        isEqualSymbolPressed = false;
+    }
+
+    public void setIsEqualSymbolPressed() {
+        isPlusSymbolPressed = false;
+        isMinusSymbolPressed = false;
+        isMultiplySymbolPressed = false;
+        isDivideSymbolPressed = false;
+        isEqualSymbolPressed = true;
+    }
+
+
 }
