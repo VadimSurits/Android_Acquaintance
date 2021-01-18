@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class CalculatorScreen implements Parcelable {
-    private final String TAG = "Android_Acquaintance - ";
     private String currentScreenState;
     private long incomingValue;
     private long firstValue;
@@ -67,6 +66,7 @@ public class CalculatorScreen implements Parcelable {
         try {
             return firstValue / secondValue;
         } catch (ArithmeticException e) {
+            String TAG = "Android_Acquaintance - ";
             Log.e(TAG, "Division on 0");
             result = 0;
             return result;
@@ -89,6 +89,10 @@ public class CalculatorScreen implements Parcelable {
         this.incomingValue = incomingValue;
     }
 
+    public long getFirstValue() {
+        return firstValue;
+    }
+
     public void setFirstValue(long firstValue) {
         this.firstValue = firstValue;
     }
@@ -99,10 +103,6 @@ public class CalculatorScreen implements Parcelable {
 
     public void setResult(long result) {
         this.result = result;
-    }
-
-    public long getResult() {
-        return result;
     }
 
     public long getMemoryValue() {

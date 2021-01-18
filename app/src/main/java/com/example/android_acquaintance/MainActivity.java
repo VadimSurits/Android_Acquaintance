@@ -196,9 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_erase:
-                if (getIncomingValue() != Long.parseLong(getString(R.string.button_0)) &&
-                        !getMainScreenText().equals(getString(R.string.button_0))) {
-                    char[] data = String.valueOf(getIncomingValue()).toCharArray();
+                if (!getMainScreenText().equals(getString(R.string.button_0))) {
+                    char[] data = String.valueOf(getMainScreenText()).toCharArray();
                     String result = String.copyValueOf(data, 0, data.length - 1);
                     if (result.equals("") || result.equals(getString(R.string.button_minus))) {
                         setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
@@ -240,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_plus));
                     setIsPlusSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isMinusSymbolPressed || isMultiplySymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_plus)));
+                    setIsPlusSymbolPressed();
                 } else if (!isPlusSymbolPressed) {
                     setFirstValue(getIncomingValue());
                     setMainScreenText(getString(R.string.button_plus));
@@ -259,6 +262,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_minus));
                     setIsMinusSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMultiplySymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_minus)));
+                    setIsMinusSymbolPressed();
                 } else if (!isMinusSymbolPressed) {
                     setFirstValue(getIncomingValue());
                     setMainScreenText(getString(R.string.button_minus));
@@ -272,9 +279,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_multiply:
+                if (getMainScreenText().equals(getString(R.string.button_multiply))) {
+                    setMainScreenText("");
+                }
                 if (isEqualSymbolPressed) {
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_multiply));
+                    setIsMultiplySymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMinusSymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_multiply)));
                     setIsMultiplySymbolPressed();
                 } else if (!isMultiplySymbolPressed) {
                     setFirstValue(getIncomingValue());
@@ -292,6 +306,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isEqualSymbolPressed) {
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_divide));
+                    setIsDivideSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMinusSymbolPressed || isMultiplySymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_divide)));
                     setIsDivideSymbolPressed();
                 } else if (!isDivideSymbolPressed) {
                     setFirstValue(getIncomingValue());
@@ -435,10 +453,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculatorScreen.setMathSymbol(s);
     }
 
-    public String getCurrentScreenState() {
-        return String.valueOf(mainScreen.getText());
-    }
-
     public String getMainScreenText() {
         return String.valueOf(mainScreen.getText());
     }
@@ -447,12 +461,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return calculatorScreen.getIncomingValue();
     }
 
-    public long getMemoryValue() {
-        return calculatorScreen.getMemoryValue();
+    public long getFirstValue() {
+        return calculatorScreen.getFirstValue();
     }
 
-    public long getResult() {
-        return calculatorScreen.getResult();
+    public long getMemoryValue() {
+        return calculatorScreen.getMemoryValue();
     }
 
     public String getMathSymbol() {
