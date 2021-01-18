@@ -19,7 +19,7 @@
     <string name="button_00">00</string>
     <string name="button_m">M</string>
     <string name="button_equal">=</string>
-    <string name="available_screen_space_for_digits">12</string>
+    <string name="available_screen_space_for_digits">11</string>
     <string name="math_symbol_right_after_equal">Сначала вам нужно ввести число</string>
     <string name="empty_symbol" />
 </resources>
