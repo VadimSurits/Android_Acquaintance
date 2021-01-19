@@ -14,7 +14,7 @@ public class CalculatorScreen implements Parcelable {
     private String mathSymbol;
 
     public CalculatorScreen() {
-        currentScreenState = String.valueOf(R.string.button_0);
+        currentScreenState = "0";
         incomingValue = 0;
         firstValue = 0;
         secondValue = 0;

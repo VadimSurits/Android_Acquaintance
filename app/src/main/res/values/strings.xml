@@ -21,5 +21,8 @@
     <string name="button_equal">=</string>
     <string name="available_screen_space_for_digits">11</string>
     <string name="math_symbol_right_after_equal">Сначала вам нужно ввести число</string>
-    <string name="empty_symbol" />
+    <string name="empty_symbol"> </string>
+    <string name="button_theme_light">Светлая тема</string>
+    <string name="button_theme_dark">Тёмная тема</string>
+
 </resources>
