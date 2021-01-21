@@ -5,12 +5,12 @@
     <dimen name="main_screen_top_margin_land">20dp</dimen>
     <dimen name="main_screen_height">60dp</dimen>
     <dimen name="button_first_row_margin_top">50dp</dimen>
-    <dimen name="button_first_row_margin_top_land">10dp</dimen>
+    <dimen name="button_first_row_margin_top_land">8dp</dimen>
     <dimen name="button_text_size">20sp</dimen>
     <dimen name="button_margin_start">15dp</dimen>
     <dimen name="button_width">55dp</dimen>
     <dimen name="button_second_row_margin_top">30dp</dimen>
-    <dimen name="button_second_row_margin_top_land">10dp</dimen>
+    <dimen name="button_second_row_margin_top_land">2dp</dimen>
     <dimen name="button_2symbols_text_size">16sp</dimen>
     <dimen name="main_screen_text_size">40sp</dimen>
     <dimen name="main_screen_padding_end">10dp</dimen>
@@ -18,4 +18,10 @@
     <dimen name="memory_screen_width">30dp</dimen>
     <dimen name="memory_screen_text_size">18sp</dimen>
     <dimen name="main_screen_width_land">400dp</dimen>
+    <dimen name="button_text_size_land">16sp</dimen>
+    <dimen name="button_height_land">40dp</dimen>
+    <dimen name="icon_size_land">20dp</dimen>
+    <dimen name="padding_start_for_icon_land">26dp</dimen>
+    <dimen name="button_theme__margin_top_land">20dp</dimen>
+    <dimen name="button_theme_height_land">45dp</dimen>
 </resources>

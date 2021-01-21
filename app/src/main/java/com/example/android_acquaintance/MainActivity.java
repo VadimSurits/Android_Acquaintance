@@ -1,6 +1,7 @@
 package com.example.android_acquaintance;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mainScreen;
@@ -20,15 +23,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isDivideSymbolPressed;
     private boolean isEqualSymbolPressed;
     private CalculatorScreen calculatorScreen;
-    private final static String KeyCalculatorScreen = "CalculatorScreen";
+    private static final String KeyCalculatorScreen = "CalculatorScreen";
+    private static final String NameSharedPreference = "SharedPreference";
+    private static final String AppTheme = "AppTheme";
+    private static final int MyCalculatorStyle = 0;
+    private static final int MyCalculatorStyleDark = 1;
+    private int codeStyle = 0;
+    private ConstraintLayout mainActivityLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(getAppTheme());
         setContentView(R.layout.activity_main);
 
         calculatorScreen = new CalculatorScreen();
         initView();
+        if (codeStyle == MyCalculatorStyleDark) {
+            mainActivityLayout.setBackground(ContextCompat.getDrawable(this,
+                    R.drawable.dark_background));
+        }
     }
 
     @Override
@@ -56,6 +70,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isMultiplySymbolPressed = false;
         isDivideSymbolPressed = false;
         isEqualSymbolPressed = false;
+    }
+
+    //получение настроек (темы в данном случае)
+    private int getAppTheme() {
+        SharedPreferences sharedPreferences = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        int i = sharedPreferences.getInt(AppTheme, codeStyle);
+        if (i == MyCalculatorStyleDark) {
+            codeStyle = MyCalculatorStyleDark;
+            return R.style.MyCalculatorStyle_Dark;
+        } else {
+            codeStyle = MyCalculatorStyle;
+            return R.style.MyCalculatorStyle;
+        }
+    }
+
+    //сохранение настроек (темы в данном случае)
+    private void setAppTheme() {
+        SharedPreferences sharedPreferences = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(AppTheme, codeStyle);
+        editor.apply();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -196,9 +231,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_erase:
-                if (getIncomingValue() != Long.parseLong(getString(R.string.button_0)) &&
-                        !getMainScreenText().equals(getString(R.string.button_0))) {
-                    char[] data = String.valueOf(getIncomingValue()).toCharArray();
+                if (!getMainScreenText().equals(getString(R.string.button_0))) {
+                    char[] data = String.valueOf(getMainScreenText()).toCharArray();
                     String result = String.copyValueOf(data, 0, data.length - 1);
                     if (result.equals("") || result.equals(getString(R.string.button_minus))) {
                         setIncomingValueAndMainScreenValue(Long.parseLong(getString(R.string.button_0)));
@@ -223,7 +257,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_m:
                 if (getMemoryValue() == Long.parseLong(getString(R.string.button_0))
-                        && !getMainScreenText().equals(getString(R.string.button_0))) {
+                        && !getMainScreenText().equals(getString(R.string.button_0))
+                        && !getMainScreenText().equals(getString(R.string.button_minus))
+                        && !getMainScreenText().equals(getString(R.string.button_plus))
+                        && !getMainScreenText().equals(getString(R.string.button_divide))
+                        && !getMainScreenText().equals(getString(R.string.button_multiply))) {
                     setMemoryValue(Long.parseLong(getMainScreenText()));
                     memoryScreen.setText(getString(R.string.button_m));
                     setIncomingValue(Long.parseLong(getString(R.string.button_0)));
@@ -239,6 +277,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isEqualSymbolPressed) {
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_plus));
+                    setIsPlusSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isMinusSymbolPressed || isMultiplySymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_plus)));
                     setIsPlusSymbolPressed();
                 } else if (!isPlusSymbolPressed) {
                     setFirstValue(getIncomingValue());
@@ -259,6 +301,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_minus));
                     setIsMinusSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMultiplySymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_minus)));
+                    setIsMinusSymbolPressed();
                 } else if (!isMinusSymbolPressed) {
                     setFirstValue(getIncomingValue());
                     setMainScreenText(getString(R.string.button_minus));
@@ -272,9 +318,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setCurrentScreenState(getMainScreenText());
                 break;
             case R.id.button_multiply:
+                if (getMainScreenText().equals(getString(R.string.button_multiply))) {
+                    setMainScreenText("");
+                }
                 if (isEqualSymbolPressed) {
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_multiply));
+                    setIsMultiplySymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMinusSymbolPressed || isDivideSymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_multiply)));
                     setIsMultiplySymbolPressed();
                 } else if (!isMultiplySymbolPressed) {
                     setFirstValue(getIncomingValue());
@@ -292,6 +345,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isEqualSymbolPressed) {
                     setFirstValue(Long.parseLong(getMainScreenText()));
                     setMainScreenText(getString(R.string.button_divide));
+                    setIsDivideSymbolPressed();
+                } else if (getFirstValue() != Long.parseLong(getString(R.string.button_0)) &&
+                        isPlusSymbolPressed || isMinusSymbolPressed || isMultiplySymbolPressed) {
+                    setMainScreenText(String.format("%d%s", getFirstValue(), getString(R.string.button_divide)));
                     setIsDivideSymbolPressed();
                 } else if (!isDivideSymbolPressed) {
                     setFirstValue(getIncomingValue());
@@ -324,10 +381,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setIsEqualSymbolPressed();
                 setCurrentScreenState(getMainScreenText());
                 break;
+            case R.id.button_theme:
+                if (codeStyle != MyCalculatorStyle) {
+                    codeStyle = MyCalculatorStyle;
+                } else {
+                    codeStyle = MyCalculatorStyleDark;
+                }
+                setAppTheme();
+                recreate();
+                break;
         }
     }
 
     public void initButtonsClickListener() {
+        mainActivityLayout = (ConstraintLayout) findViewById(R.id.main_activity_layout);
         Button button1 = findViewById(R.id.button_1);
         Button button2 = findViewById(R.id.button_2);
         Button button3 = findViewById(R.id.button_3);
@@ -347,6 +414,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button minus = findViewById(R.id.button_minus);
         Button erase = findViewById(R.id.button_erase);
         Button equal = findViewById(R.id.button_equal);
+        Button button_theme = findViewById(R.id.button_theme);
+        if (codeStyle == MyCalculatorStyleDark) {
+            button_theme.setText(getString(R.string.button_theme_dark));
+            button_theme.setBackgroundColor(ContextCompat.getColor(this,
+                    R.color.forest_green));
+            button_theme.setTextColor(ContextCompat.getColor(this, R.color.black));
+            erase.setBackgroundColor(ContextCompat.getColor(this, R.color.chocolate));
+            buttonM.setBackgroundColor(ContextCompat.getColor(this, R.color.chocolate));
+            buttonC.setBackgroundColor(ContextCompat.getColor(this, R.color.fire_brick));
+        } else {
+            button_theme.setText(getString(R.string.button_theme_light));
+        }
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
@@ -367,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minus.setOnClickListener(this);
         erase.setOnClickListener(this);
         equal.setOnClickListener(this);
+        button_theme.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -435,10 +515,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculatorScreen.setMathSymbol(s);
     }
 
-    public String getCurrentScreenState() {
-        return String.valueOf(mainScreen.getText());
-    }
-
     public String getMainScreenText() {
         return String.valueOf(mainScreen.getText());
     }
@@ -447,12 +523,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return calculatorScreen.getIncomingValue();
     }
 
-    public long getMemoryValue() {
-        return calculatorScreen.getMemoryValue();
+    public long getFirstValue() {
+        return calculatorScreen.getFirstValue();
     }
 
-    public long getResult() {
-        return calculatorScreen.getResult();
+    public long getMemoryValue() {
+        return calculatorScreen.getMemoryValue();
     }
 
     public String getMathSymbol() {
