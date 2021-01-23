@@ -24,5 +24,7 @@
     <string name="empty_symbol"> </string>
     <string name="button_theme_light">Светлая тема</string>
     <string name="button_theme_dark">Тёмная тема</string>
+    <string name="settings_theme_choice">Выбор темы приложения</string>
+    <string name="button_settings">Настройки</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.android_acquaintance;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, Constants {
     private TextView mainScreen;
     private TextView memoryScreen;
     private boolean isPlusSymbolPressed;
@@ -23,11 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isDivideSymbolPressed;
     private boolean isEqualSymbolPressed;
     private CalculatorScreen calculatorScreen;
-    private static final String KeyCalculatorScreen = "CalculatorScreen";
-    private static final String NameSharedPreference = "SharedPreference";
-    private static final String AppTheme = "AppTheme";
-    private static final int MyCalculatorStyle = 0;
-    private static final int MyCalculatorStyleDark = 1;
+    private static final int REQUEST_CODE_SETTING_ACTIVITY = 777;
     private int codeStyle = 0;
     private ConstraintLayout mainActivityLayout;
 
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         calculatorScreen = new CalculatorScreen();
         initView();
-        if (codeStyle == MyCalculatorStyleDark) {
+        if (codeStyle == My_CALCULATOR_STYLE_DARK) {
             mainActivityLayout.setBackground(ContextCompat.getDrawable(this,
                     R.drawable.dark_background));
         }
@@ -48,14 +45,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(KeyCalculatorScreen, calculatorScreen);
+        outState.putParcelable(KEY_CALCULATOR_SCREEN, calculatorScreen);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        calculatorScreen = savedInstanceState.getParcelable(KeyCalculatorScreen);
+        calculatorScreen = savedInstanceState.getParcelable(KEY_CALCULATOR_SCREEN);
         restoreScreen();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQUEST_CODE_SETTING_ACTIVITY) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+        if (resultCode == RESULT_OK) {
+            codeStyle = data.getExtras().getInt(APP_THEME);
+            setAppTheme();
+            recreate();
+        }
     }
 
     private void initView() {
@@ -74,22 +83,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //получение настроек (темы в данном случае)
     private int getAppTheme() {
-        SharedPreferences sharedPreferences = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
-        int i = sharedPreferences.getInt(AppTheme, codeStyle);
-        if (i == MyCalculatorStyleDark) {
-            codeStyle = MyCalculatorStyleDark;
+        SharedPreferences sharedPreferences = getSharedPreferences(NAME_SHARED_PREFERENCE, MODE_PRIVATE);
+        codeStyle = sharedPreferences.getInt(APP_THEME, codeStyle);
+        if (codeStyle == My_CALCULATOR_STYLE_DARK) {
             return R.style.MyCalculatorStyle_Dark;
         } else {
-            codeStyle = MyCalculatorStyle;
             return R.style.MyCalculatorStyle;
         }
     }
 
     //сохранение настроек (темы в данном случае)
     private void setAppTheme() {
-        SharedPreferences sharedPreferences = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(NAME_SHARED_PREFERENCE, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(AppTheme, codeStyle);
+        editor.putInt(APP_THEME, codeStyle);
         editor.apply();
     }
 
@@ -381,20 +388,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setIsEqualSymbolPressed();
                 setCurrentScreenState(getMainScreenText());
                 break;
-            case R.id.button_theme:
-                if (codeStyle != MyCalculatorStyle) {
-                    codeStyle = MyCalculatorStyle;
-                } else {
-                    codeStyle = MyCalculatorStyleDark;
-                }
-                setAppTheme();
-                recreate();
+            case R.id.button_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SETTING_ACTIVITY);
                 break;
         }
     }
 
     public void initButtonsClickListener() {
-        mainActivityLayout = (ConstraintLayout) findViewById(R.id.main_activity_layout);
+        mainActivityLayout = findViewById(R.id.main_activity_layout);
         Button button1 = findViewById(R.id.button_1);
         Button button2 = findViewById(R.id.button_2);
         Button button3 = findViewById(R.id.button_3);
@@ -414,17 +416,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button minus = findViewById(R.id.button_minus);
         Button erase = findViewById(R.id.button_erase);
         Button equal = findViewById(R.id.button_equal);
-        Button button_theme = findViewById(R.id.button_theme);
-        if (codeStyle == MyCalculatorStyleDark) {
-            button_theme.setText(getString(R.string.button_theme_dark));
-            button_theme.setBackgroundColor(ContextCompat.getColor(this,
+        Button button_settings = findViewById(R.id.button_settings);
+        if (codeStyle == My_CALCULATOR_STYLE_DARK) {
+            button_settings.setBackgroundColor(ContextCompat.getColor(this,
                     R.color.forest_green));
-            button_theme.setTextColor(ContextCompat.getColor(this, R.color.black));
-            erase.setBackgroundColor(ContextCompat.getColor(this, R.color.chocolate));
-            buttonM.setBackgroundColor(ContextCompat.getColor(this, R.color.chocolate));
-            buttonC.setBackgroundColor(ContextCompat.getColor(this, R.color.fire_brick));
-        } else {
-            button_theme.setText(getString(R.string.button_theme_light));
+            button_settings.setTextColor(ContextCompat.getColor(this, R.color.black));
         }
 
         button1.setOnClickListener(this);
@@ -446,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minus.setOnClickListener(this);
         erase.setOnClickListener(this);
         equal.setOnClickListener(this);
-        button_theme.setOnClickListener(this);
+        button_settings.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
