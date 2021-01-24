@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Android_Acquaintance</string>
+    <string name="first_note_title">первая заметка</string>
+    <string name="first_note_content">содержание первой заметки</string>
+    <string name="second_note_title">вторая заметка</string>
+    <string name="second_note_content">содержание второй заметки</string>
+    <string name="third_note_title">третья заметка</string>
+    <string name="third_note_content">содержание третьей заметки</string>
 
 </resources>
