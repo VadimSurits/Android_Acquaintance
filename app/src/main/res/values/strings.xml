@@ -6,5 +6,8 @@
     <string name="second_note_content">содержание второй заметки</string>
     <string name="third_note_title">третья заметка</string>
     <string name="third_note_content">содержание третьей заметки</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="note_title">Название заметки</string>
+    <string name="note_content">Текст заметки</string>
 
 </resources>

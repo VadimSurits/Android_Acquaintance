@@ -1,5 +1,8 @@
 package com.example.android_acquaintance;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +14,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.example.android_acquaintance.NoteFragment.CURRENT_NOTE;
+
 public class ListOfNotesFragment extends Fragment {
+
+    private boolean isLandscape;
+    private Note[] notes;
+    private Note currentNote;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,8 +42,7 @@ public class ListOfNotesFragment extends Fragment {
     }
 
     private void initList(View view) {
-        LinearLayout linearLayout = (LinearLayout) view;
-        Note[] notes = {
+        notes = new Note[]{
                 new Note(0,
                         getString(R.string.first_note_title),
                         getString(R.string.first_note_content),
@@ -51,23 +61,75 @@ public class ListOfNotesFragment extends Fragment {
         };
 
         for (Note n : notes) {
-            TextView tv1 = new TextView(getContext());
-            TextView tv2 = new TextView(getContext());
-            TextView tv3 = new TextView(getContext());
-            tv1.setText(String.format("%s - id:%s", n.getTitle(), n.getId()));
-            tv1.setTextSize(25);
-            tv1.setBackgroundColor(n.getColor());
-            tv2.setText(n.getContent());
-            tv2.setTextSize(20);
-            tv2.setBackgroundColor(n.getColor());
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
-                    Locale.getDefault());
-            tv3.setText(formatter.format(n.getCreationDate().getTime()));
-            tv3.setTextSize(15);
-            tv3.setBackgroundColor(n.getColor());
-            linearLayout.addView(tv1);
-            linearLayout.addView(tv2);
-            linearLayout.addView(tv3);
+            Context context = getContext();
+            if (context != null) {
+                LinearLayout linearView = (LinearLayout) view;
+                TextView tv1 = new TextView(context);
+                TextView tv2 = new TextView(context);
+                TextView tv3 = new TextView(context);
+                tv1.setText(String.format("%s - id:%s", n.getTitle(), n.getId()));
+                tv1.setTextSize(25);
+                tv1.setBackgroundColor(n.getColor());
+                tv2.setText(n.getContent());
+                tv2.setTextSize(20);
+                tv2.setBackgroundColor(n.getColor());
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
+                        Locale.getDefault());
+                tv3.setText(formatter.format(n.getCreationDate().getTime()));
+                tv3.setTextSize(15);
+                tv3.setBackgroundColor(n.getColor());
+                linearView.addView(tv1);
+                linearView.addView(tv2);
+                linearView.addView(tv3);
+                tv1.setOnClickListener(v -> {
+                    currentNote = n;
+                    showNote(currentNote);
+                });
+            }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(CURRENT_NOTE, currentNote);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isLandscape = getResources().getConfiguration().orientation ==
+                Configuration.ORIENTATION_LANDSCAPE;
+        if (savedInstanceState != null) {
+            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
+        } else {
+            currentNote = notes[0];
+        }
+        if (isLandscape) {
+            showLandNote(currentNote);
+        }
+    }
+
+    private void showNote(Note currentNote) {
+        if (isLandscape) {
+            showLandNote(currentNote);
+        } else {
+            showPortNote(currentNote);
+        }
+    }
+
+    private void showLandNote(Note currentNote) {
+        NoteFragment fragment = NoteFragment.newInstance(currentNote);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.note_layout, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
+    }
+
+    private void showPortNote(Note currentNote) {
+        Intent intent = new Intent(getActivity(), NoteActivity.class);
+        intent.putExtra(NoteFragment.CURRENT_NOTE, currentNote);
+        startActivity(intent);
     }
 }
