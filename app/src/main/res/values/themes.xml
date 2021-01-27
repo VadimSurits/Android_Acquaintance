@@ -14,14 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MyCalculatorStyle" parent="Theme.MaterialComponents.Light">
+    <style name="MyStyle" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/cornflower_blue</item>
         <item name="colorOnPrimary">@color/floral_white</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MyCalculatorStyle.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
+    <style name="MyStyle.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorOnPrimary">@color/black</item>
     </style>
