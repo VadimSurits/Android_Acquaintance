@@ -60,28 +60,29 @@ public class ListOfNotesFragment extends Fragment {
                         Color.YELLOW),
         };
 
+        LinearLayout linearView = (LinearLayout) view;
         for (Note n : notes) {
             Context context = getContext();
             if (context != null) {
-                LinearLayout linearView = (LinearLayout) view;
+                LinearLayout innerLayout = new LinearLayout(context);
+                innerLayout.setOrientation(LinearLayout.VERTICAL);
+                innerLayout.setBackgroundColor(n.getColor());
                 TextView tv1 = new TextView(context);
                 TextView tv2 = new TextView(context);
                 TextView tv3 = new TextView(context);
                 tv1.setText(String.format("%s - id:%s", n.getTitle(), n.getId()));
                 tv1.setTextSize(25);
-                tv1.setBackgroundColor(n.getColor());
                 tv2.setText(n.getContent());
                 tv2.setTextSize(20);
-                tv2.setBackgroundColor(n.getColor());
                 SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
                         Locale.getDefault());
                 tv3.setText(formatter.format(n.getCreationDate().getTime()));
                 tv3.setTextSize(15);
-                tv3.setBackgroundColor(n.getColor());
-                linearView.addView(tv1);
-                linearView.addView(tv2);
-                linearView.addView(tv3);
-                tv1.setOnClickListener(v -> {
+                innerLayout.addView(tv1);
+                innerLayout.addView(tv2);
+                innerLayout.addView(tv3);
+                linearView.addView(innerLayout);
+                innerLayout.setOnClickListener(v -> {
                     currentNote = n;
                     showNote(currentNote);
                 });
