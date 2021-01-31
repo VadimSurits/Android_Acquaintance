@@ -6,6 +6,24 @@
     <string name="second_note_content">содержание второй заметки</string>
     <string name="third_note_title">третья заметка</string>
     <string name="third_note_content">содержание третьей заметки</string>
+    <string name="fourth_note_title">четвертая заметка</string>
+    <string name="fourth_note_content">содержание четвёртой заметки</string>
+    <string name="fifth_note_title">пятая заметка</string>
+    <string name="fifth_note_content">содержание пятой заметки</string>
+    <string name="sixth_note_title">шестая заметка</string>
+    <string name="sixth_note_content">содержание шестой заметки</string>
+    <string name="seventh_note_title">седьмая заметка</string>
+    <string name="seventh_note_content">содержание седьмой заметки</string>
+    <string name="eighth_note_title">восьмая заметка</string>
+    <string name="eighth_note_content">содержание восьмой заметки</string>
+    <string name="ninth_note_title">девятая заметка</string>
+    <string name="ninth_note_content">содержание девятой заметки</string>
+    <string name="tenth_note_title">десятая заметка</string>
+    <string name="tenth_note_content">содержание десятой заметки</string>
+    <string name="eleventh_note_title">одинадцатая заметка</string>
+    <string name="eleventh_note_content">содержание одинадцатой заметки</string>
+    <string name="twelfth_note_title">двенадцатая заметка</string>
+    <string name="twelfth_note_content">содержание двенадцатой заметки</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="note_title">Название заметки</string>
     <string name="note_content">Текст заметки</string>
@@ -13,5 +31,6 @@
     <string name="menu_sort">сортировка</string>
     <string name="menu_send">переслать</string>
     <string name="menu_add_photo">прикрепить фото</string>
+    <string name="item">item of RV</string>
 
 </resources>

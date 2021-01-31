@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/element_of_recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:textSize="@dimen/textsize_of_rv_element"
+    tools:text="@string/item">
+
+    <TextView
+        android:id="@+id/first_tv_of_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_of_rv_element"
+        android:paddingEnd="@dimen/padding_of_rv_element"
+        android:textSize="@dimen/textsize_of_rv_element"
+        tools:text="@string/item" />
+
+    <TextView
+        android:id="@+id/second_tv_of_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_of_rv_element"
+        android:paddingEnd="@dimen/padding_of_rv_element"
+        android:paddingBottom="@dimen/small_padding_of_rv_element"
+        android:textSize="@dimen/textsize_of_date_of_rv_element"
+        tools:text="@string/item" />
+</LinearLayout>
