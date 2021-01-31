@@ -1,7 +1,6 @@
 package com.example.android_acquaintance.ui;
 
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,51 +49,51 @@ public class ListOfNotesFragment extends Fragment {
                 new Note(getString(R.string.first_note_title),
                         getString(R.string.first_note_content),
                         Calendar.getInstance(),
-                        Color.MAGENTA),
+                        ContextCompat.getColor(getContext(), R.color.navajo_white)),
                 new Note(getString(R.string.second_note_title),
                         getString(R.string.second_note_content),
                         Calendar.getInstance(),
-                        Color.GRAY),
+                        ContextCompat.getColor(getContext(), R.color.hot_pink)),
                 new Note(getString(R.string.third_note_title),
                         getString(R.string.third_note_content),
                         Calendar.getInstance(),
-                        Color.YELLOW),
+                        ContextCompat.getColor(getContext(), R.color.plum)),
                 new Note(getString(R.string.fourth_note_title),
                         getString(R.string.fourth_note_content),
                         Calendar.getInstance(),
-                        Color.CYAN),
+                        ContextCompat.getColor(getContext(), R.color.powder_blue)),
                 new Note(getString(R.string.fifth_note_title),
                         getString(R.string.fifth_note_content),
                         Calendar.getInstance(),
-                        Color.BLUE),
+                        ContextCompat.getColor(getContext(), R.color.yellow_green)),
                 new Note(getString(R.string.sixth_note_title),
                         getString(R.string.sixth_note_content),
                         Calendar.getInstance(),
-                        Color.DKGRAY),
+                        ContextCompat.getColor(getContext(), R.color.peru)),
                 new Note(getString(R.string.seventh_note_title),
                         getString(R.string.seventh_note_content),
                         Calendar.getInstance(),
-                        Color.GREEN),
+                        ContextCompat.getColor(getContext(), R.color.pale_green)),
                 new Note(getString(R.string.eighth_note_title),
                         getString(R.string.eighth_note_content),
                         Calendar.getInstance(),
-                        Color.RED),
+                        ContextCompat.getColor(getContext(), R.color.light_sky_blue)),
                 new Note(getString(R.string.ninth_note_title),
                         getString(R.string.ninth_note_content),
                         Calendar.getInstance(),
-                        Color.WHITE),
+                        ContextCompat.getColor(getContext(), R.color.dark_salmon)),
                 new Note(getString(R.string.tenth_note_title),
                         getString(R.string.tenth_note_content),
                         Calendar.getInstance(),
-                        Color.MAGENTA),
+                        ContextCompat.getColor(getContext(), R.color.olive)),
                 new Note(getString(R.string.eleventh_note_title),
                         getString(R.string.eleventh_note_content),
                         Calendar.getInstance(),
-                        Color.GRAY),
+                        ContextCompat.getColor(getContext(), R.color.medium_slate_blue)),
                 new Note(getString(R.string.twelfth_note_title),
                         getString(R.string.twelfth_note_content),
                         Calendar.getInstance(),
-                        Color.YELLOW),
+                        ContextCompat.getColor(getContext(), R.color.dark_turquoise)),
         };
     }
 
@@ -106,6 +107,11 @@ public class ListOfNotesFragment extends Fragment {
             showNote(currentNote);
         });
         recyclerView.setAdapter(adapter);
+        //декоратор
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
+                LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override

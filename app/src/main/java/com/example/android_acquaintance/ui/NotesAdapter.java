@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_acquaintance.Note;
@@ -54,13 +55,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
         private LinearLayout itemLayout;
         private TextView titleTextView;
         private TextView dateTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemLayout = (LinearLayout) itemView;
+            cardView = (CardView) itemView;
+            itemLayout = itemView.findViewById(R.id.element_of_recycler_view);
             titleTextView = itemView.findViewById(R.id.first_tv_of_item);
             dateTextView = itemView.findViewById(R.id.second_tv_of_item);
             itemLayout.setOnClickListener(v -> {

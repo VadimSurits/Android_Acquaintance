@@ -19,6 +19,7 @@
         <item name="colorOnPrimary">@color/floral_white</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 
     <style name="MyStyle.NoActionBar">

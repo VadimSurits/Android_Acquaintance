@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         initStartFragment();
-
-//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-
     }
 
     private void initToolbar() {
