@@ -1,5 +1,6 @@
 package com.example.android_acquaintance;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,13 +9,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.android_acquaintance.ui.ListOfNotesFragment;
+import com.example.android_acquaintance.ui.NoteFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean isLandscape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initStartFragment() {
+        //создание нового фрагмента при создании или пересоздании активити
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ListOfNotesFragment listFragment = new ListOfNotesFragment();
-        fragmentTransaction.add(R.id.list_of_notes_fragment_container, listFragment);
-        fragmentTransaction.commit();
+        //проверка ориентации и открытого в данный момент фрагмента для того, чтобы при необходимости
+        //убрать с экрана лишний созданный стартовый фрагмент в ландшафтной ориентации
+        Fragment fragment = fragmentManager.findFragmentById(R.id.list_of_notes_fragment_container);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                fragment instanceof NoteFragment) {
+            fragmentManager.popBackStack();
+        } else {
+            //обязательно используем replace, а не add, иначе в той же ситуации ListOfNotesFragment
+            //будет накладываться на пересозданный при повороте экрана такой же фрагмент
+            fragmentTransaction.replace(R.id.list_of_notes_fragment_container, listFragment);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override

@@ -20,9 +20,9 @@ import com.example.android_acquaintance.Note;
 import com.example.android_acquaintance.R;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import static com.example.android_acquaintance.ui.NoteFragment.CURRENT_NOTE;
-
 
 public class ListOfNotesFragment extends Fragment {
 
@@ -49,7 +49,7 @@ public class ListOfNotesFragment extends Fragment {
                 new Note(getString(R.string.first_note_title),
                         getString(R.string.first_note_content),
                         Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.navajo_white)),
+                        ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.navajo_white)),
                 new Note(getString(R.string.second_note_title),
                         getString(R.string.second_note_content),
                         Calendar.getInstance(),
@@ -108,9 +108,10 @@ public class ListOfNotesFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
         //декоратор
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
-                LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.separator));
+        DividerItemDecoration itemDecoration = new DividerItemDecoration
+                (Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(Objects.requireNonNull
+                (ContextCompat.getDrawable(getContext(), R.drawable.separator)));
         recyclerView.addItemDecoration(itemDecoration);
     }
 
