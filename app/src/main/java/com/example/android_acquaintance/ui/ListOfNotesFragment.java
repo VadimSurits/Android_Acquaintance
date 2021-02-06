@@ -2,7 +2,11 @@ package com.example.android_acquaintance.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_acquaintance.Note;
+import com.example.android_acquaintance.NotesSource;
+import com.example.android_acquaintance.NotesSourceInterface;
 import com.example.android_acquaintance.R;
 
 import java.util.Calendar;
@@ -27,8 +33,10 @@ import static com.example.android_acquaintance.ui.NoteFragment.CURRENT_NOTE;
 public class ListOfNotesFragment extends Fragment {
 
     private boolean isLandscape;
-    private Note[] notes;
     private Note currentNote;
+    private NotesSource data;
+    private NotesAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,68 +48,20 @@ public class ListOfNotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initNotes();
-        RecyclerView recyclerView = view.findViewById(R.id.notes_recycler_view);
-        initRecyclerView(recyclerView, notes);
+        recyclerView = view.findViewById(R.id.notes_recycler_view);
+        initRecyclerView(recyclerView, data);
+        setHasOptionsMenu(true);
     }
 
     private void initNotes() {
-        notes = new Note[]{
-                new Note(getString(R.string.first_note_title),
-                        getString(R.string.first_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.navajo_white)),
-                new Note(getString(R.string.second_note_title),
-                        getString(R.string.second_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.hot_pink)),
-                new Note(getString(R.string.third_note_title),
-                        getString(R.string.third_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.plum)),
-                new Note(getString(R.string.fourth_note_title),
-                        getString(R.string.fourth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.powder_blue)),
-                new Note(getString(R.string.fifth_note_title),
-                        getString(R.string.fifth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.yellow_green)),
-                new Note(getString(R.string.sixth_note_title),
-                        getString(R.string.sixth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.peru)),
-                new Note(getString(R.string.seventh_note_title),
-                        getString(R.string.seventh_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.pale_green)),
-                new Note(getString(R.string.eighth_note_title),
-                        getString(R.string.eighth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.light_sky_blue)),
-                new Note(getString(R.string.ninth_note_title),
-                        getString(R.string.ninth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.dark_salmon)),
-                new Note(getString(R.string.tenth_note_title),
-                        getString(R.string.tenth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.olive)),
-                new Note(getString(R.string.eleventh_note_title),
-                        getString(R.string.eleventh_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.medium_slate_blue)),
-                new Note(getString(R.string.twelfth_note_title),
-                        getString(R.string.twelfth_note_content),
-                        Calendar.getInstance(),
-                        ContextCompat.getColor(getContext(), R.color.dark_turquoise)),
-        };
+        data = new NotesSource(getResources()).init();
     }
 
-    private void initRecyclerView(RecyclerView recyclerView, Note[] notes) {
+    private void initRecyclerView(RecyclerView recyclerView, NotesSourceInterface data) {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        NotesAdapter adapter = new NotesAdapter(notes);
+        adapter = new NotesAdapter(data, this);
         adapter.setOnItemClickListener((position, note) -> {
             currentNote = note;
             showNote(currentNote);
@@ -129,7 +89,7 @@ public class ListOfNotesFragment extends Fragment {
         if (savedInstanceState != null) {
             currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
         } else {
-            currentNote = notes[0];
+            currentNote = data.getNote(0);
         }
         if (isLandscape) {
             showLandNote(currentNote);
@@ -161,5 +121,50 @@ public class ListOfNotesFragment extends Fragment {
         fragmentTransaction.replace(R.id.list_of_notes_fragment_container, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v,
+                                    @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    //этот метод пока в недоделанном состоянии, попытался сделать по подобию методички, но
+    //пока еще не до конца разобрался и не решил, сколько опций я в итоге оставлю в контектном меню.
+    //Если получится сохранять изменения в ListOfNotesFragment при нажатии кнопки "сохранить изменения"
+    // в NoteFragment, то может быть оставлю в этом меню только опцию delete_note.
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getMenuPosition();
+        switch (item.getItemId()) {
+            case R.id.menu_change_note:
+                if(isLandscape){
+                    data.changeNote(position, currentNote);
+                    adapter.notifyItemChanged(position);
+                }
+                return true;
+            case R.id.menu_delete_note:
+                // Do some stuff
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    //этот метод тоже пока еще в недоделанном состоянии
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuItem addNote = menu.findItem(R.id.menu_add_note);
+        addNote.setOnMenuItemClickListener(item -> {
+            data.addNote(new Note(getString(R.string.new_note),
+                    "",
+                    Calendar.getInstance(),
+                    data.getColor()));
+            adapter.notifyItemInserted(data.size() - 1);
+            recyclerView.scrollToPosition(data.size() - 1);
+            return true;
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
