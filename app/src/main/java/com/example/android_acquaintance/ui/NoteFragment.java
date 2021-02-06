@@ -1,4 +1,4 @@
-package com.example.android_acquaintance;
+package com.example.android_acquaintance.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.android_acquaintance.Note;
+import com.example.android_acquaintance.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +25,7 @@ import java.util.Locale;
 
 public class NoteFragment extends Fragment {
 
-    static final String CURRENT_NOTE = "currentNote";
+    public static final String CURRENT_NOTE = "currentNote";
     private Note note;
     private boolean isLandscape;
 

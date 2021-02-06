@@ -1,6 +1,5 @@
 package com.example.android_acquaintance;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.android_acquaintance.ui.ListOfNotesFragment;
+
 public class MainActivity extends AppCompatActivity {
     private boolean isLandscape;
 
@@ -21,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initToolbar();
         initStartFragment();
-
-//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-
     }
 
     private void initToolbar() {
