@@ -1,6 +1,5 @@
 package com.example.android_acquaintance;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,49 +10,49 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.android_acquaintance.observe.Publisher;
 import com.example.android_acquaintance.ui.ListOfNotesFragment;
 import com.example.android_acquaintance.ui.NoteFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean isLandscape;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private Fragment fragment = getVisibleFragment(fragmentManager);
+
+    private Navigation navigation;
+    private Publisher publisher = new Publisher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigation = new Navigation(getSupportFragmentManager());
         initToolbar();
-        initStartFragment();
-        isLandscape = getResources().getConfiguration().orientation ==
-                Configuration.ORIENTATION_LANDSCAPE;
+        getNavigation().addFragment(ListOfNotesFragment.newInstance(), false);
     }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void initStartFragment() {
-        //создание нового фрагмента при создании или пересоздании активити
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ListOfNotesFragment listFragment = new ListOfNotesFragment();
-        //проверка ориентации и открытого в данный момент фрагмента для того, чтобы при необходимости
-        //убрать с экрана лишний созданный стартовый фрагмент в ландшафтной ориентации
-        Fragment fragment = fragmentManager.findFragmentById(R.id.list_of_notes_fragment_container);
-        if (isLandscape && fragment instanceof NoteFragment) {
-            fragmentManager.popBackStack();
-        } else {
-            //обязательно используем replace, а не add, иначе в той же ситуации ListOfNotesFragment
-            //будет накладываться на пересозданный при повороте экрана такой же фрагмент
-            fragmentTransaction.replace(R.id.list_of_notes_fragment_container, listFragment);
-            fragmentTransaction.commit();
-        }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public Navigation getNavigation() {
+        return navigation;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     @Override
@@ -78,11 +77,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.menu_sort, Toast.LENGTH_SHORT).show();
             return true;
         });
-//        MenuItem addNote = menu.findItem(R.id.menu_add_note);
-//        addNote.setOnMenuItemClickListener(item -> {
-//            Toast.makeText(MainActivity.this, R.string.menu_add_note, Toast.LENGTH_SHORT).show();
-//            return true;
-//        });
         MenuItem send = menu.findItem(R.id.menu_send);
         send.setOnMenuItemClickListener(item -> {
             Toast.makeText(MainActivity.this, R.string.menu_send, Toast.LENGTH_SHORT).show();
@@ -93,26 +87,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.menu_add_photo, Toast.LENGTH_SHORT).show();
             return true;
         });
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        Fragment fragment = getVisibleFragment(fragmentManager);
-        if (!isLandscape && fragment instanceof NoteFragment) {
+        if (fragment instanceof NoteFragment) {
             search.setVisible(false);
-//            addNote.setVisible(false);
             sort.setVisible(false);
             send.setVisible(true);
             addPhoto.setVisible(true);
-        } else if (!isLandscape && fragment instanceof ListOfNotesFragment) {
+        } else if (fragment instanceof ListOfNotesFragment) {
             search.setVisible(true);
-//            addNote.setVisible(true);
             sort.setVisible(true);
             send.setVisible(false);
             addPhoto.setVisible(false);
-        } else {
-            search.setVisible(true);
-//            addNote.setVisible(true);
-            sort.setVisible(true);
-            send.setVisible(true);
-            addPhoto.setVisible(true);
         }
         return true;
     }

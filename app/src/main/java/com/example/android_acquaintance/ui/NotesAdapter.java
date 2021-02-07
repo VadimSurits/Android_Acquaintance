@@ -53,8 +53,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         holder.getTitleTextView().setText(dataSource.getNote(position).getTitle());
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
                 Locale.getDefault());
-        holder.getDateTextView().setText(formatter.format(dataSource.getNote(position)
-                .getCreationDate().getTime()));
+        holder.getDateTextView().setText(dataSource.getNote(position).getCreationDate());
     }
 
     @Override
