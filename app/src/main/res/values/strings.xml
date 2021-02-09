@@ -33,5 +33,9 @@
     <string name="menu_add_photo">прикрепить фото</string>
     <string name="item">item of RV</string>
     <string name="date_of_item">date of item</string>
+    <string name="menu_add_note">новая записка</string>
+    <string name="new_note">новая заметка</string>
+    <string name="menu_delete_note">удалить</string>
+    <string name="save_changes">сохранить изменения</string>
 
 </resources>

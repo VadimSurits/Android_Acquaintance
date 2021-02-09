@@ -3,15 +3,13 @@ package com.example.android_acquaintance;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Calendar;
-
 public class Note implements Parcelable {
     private String title;
     private String content;
-    private Calendar creationDate;
+    private String creationDate;
     private int color;
 
-    public Note(String title, String content, Calendar creationDate, int color) {
+    public Note(String title, String content, String creationDate, int color) {
         this.title = title;
         this.content = content;
         this.creationDate = creationDate;
@@ -21,7 +19,7 @@ public class Note implements Parcelable {
     protected Note(Parcel in) {
         title = in.readString();
         content = in.readString();
-        creationDate = (Calendar) in.readSerializable();
+        creationDate = in.readString();
         color = in.readInt();
     }
 
@@ -29,7 +27,7 @@ public class Note implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(content);
-        dest.writeSerializable(creationDate);
+        dest.writeString(creationDate);
         dest.writeInt(color);
     }
 
@@ -58,11 +56,27 @@ public class Note implements Parcelable {
         return content;
     }
 
-    public Calendar getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
     public int getColor() {
         return color;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.android_acquaintance.ui;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,21 +8,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_acquaintance.Note;
+import com.example.android_acquaintance.NotesSourceInterface;
 import com.example.android_acquaintance.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
-    private Note[] notes;
+    private NotesSourceInterface dataSource;
     private MyClickListener myClickListener;
+    private final Fragment fragment;
+    private int menuPosition;
 
-    public NotesAdapter(Note[] notes) {
-        this.notes = notes;
+    public NotesAdapter(NotesSourceInterface dataSource, Fragment fragment) {
+        this.dataSource = dataSource;
+        this.fragment = fragment;
+    }
+
+    public int getMenuPosition() {
+        return menuPosition;
     }
 
     public void setOnItemClickListener(MyClickListener itemClickListener) {
@@ -38,16 +49,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull NotesAdapter.ViewHolder holder, int position) {
-        holder.getItemLayout().setBackgroundColor(notes[position].getColor());
-        holder.getTitleTextView().setText(notes[position].getTitle());
+        holder.getItemLayout().setBackgroundColor(dataSource.getNote(position).getColor());
+        holder.getTitleTextView().setText(dataSource.getNote(position).getTitle());
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy",
                 Locale.getDefault());
-        holder.getDateTextView().setText(formatter.format(notes[position].getCreationDate().getTime()));
+        holder.getDateTextView().setText(dataSource.getNote(position).getCreationDate());
     }
 
     @Override
     public int getItemCount() {
-        return notes.length;
+        return dataSource.size();
     }
 
     public interface MyClickListener {
@@ -60,16 +71,39 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         private TextView titleTextView;
         private TextView dateTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
             itemLayout = itemView.findViewById(R.id.element_of_recycler_view);
             titleTextView = itemView.findViewById(R.id.first_tv_of_item);
             dateTextView = itemView.findViewById(R.id.second_tv_of_item);
+
+            registerContextMenu(itemView);
+
             itemLayout.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                myClickListener.onItemClick(position, notes[position]);
+                myClickListener.onItemClick(position, dataSource.getNote(position));
             });
+
+            itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
+                    itemView.showContextMenu(550, 10);
+                    return true;
+                }
+            });
+        }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null) {
+                itemView.setOnLongClickListener(v -> {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                });
+                fragment.registerForContextMenu(itemView);
+            }
         }
 
         public LinearLayout getItemLayout() {
