@@ -1,8 +1,10 @@
-package com.example.android_acquaintance;
+package com.example.android_acquaintance.data;
 
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.android_acquaintance.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,7 +48,8 @@ public class NotesSource implements NotesSourceInterface, Parcelable {
         }
     };
 
-    public NotesSource init() {
+    @Override
+    public NotesSourceInterface init(NotesSourceResponse notesSourceResponse) {
         Note[] notesArray = new Note[]{
                 new Note(resources.getString(R.string.first_note_title),
                         resources.getString(R.string.first_note_content),
@@ -86,6 +89,9 @@ public class NotesSource implements NotesSourceInterface, Parcelable {
                         getDateOfCreation(), getColor())
         };
         Collections.addAll(notes, notesArray);
+        if (notesSourceResponse != null) {
+            notesSourceResponse.initialized(this);
+        }
         return this;
     }
 

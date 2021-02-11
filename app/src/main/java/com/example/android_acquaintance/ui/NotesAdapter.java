@@ -13,9 +13,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android_acquaintance.Note;
-import com.example.android_acquaintance.NotesSourceInterface;
 import com.example.android_acquaintance.R;
+import com.example.android_acquaintance.data.Note;
+import com.example.android_acquaintance.data.NotesSourceInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -26,9 +26,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     private final Fragment fragment;
     private int menuPosition;
 
-    public NotesAdapter(NotesSourceInterface dataSource, Fragment fragment) {
-        this.dataSource = dataSource;
+    public NotesAdapter(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public void setDataSource(NotesSourceInterface dataSource) {
+        this.dataSource = dataSource;
+        notifyDataSetChanged();
     }
 
     public int getMenuPosition() {

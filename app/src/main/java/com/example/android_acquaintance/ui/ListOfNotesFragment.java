@@ -20,52 +20,44 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_acquaintance.MainActivity;
 import com.example.android_acquaintance.Navigation;
-import com.example.android_acquaintance.Note;
-import com.example.android_acquaintance.NotesSource;
-import com.example.android_acquaintance.NotesSourceInterface;
 import com.example.android_acquaintance.R;
+import com.example.android_acquaintance.data.Note;
+import com.example.android_acquaintance.data.NotesSourceFirebase;
+import com.example.android_acquaintance.data.NotesSourceInterface;
+import com.example.android_acquaintance.data.NotesSourceResponse;
 import com.example.android_acquaintance.observe.Observer;
 import com.example.android_acquaintance.observe.Publisher;
 
 import java.util.Objects;
 
-import static com.example.android_acquaintance.ui.NoteFragment.CURRENT_DATA;
-import static com.example.android_acquaintance.ui.NoteFragment.CURRENT_NOTE;
-
 public class ListOfNotesFragment extends Fragment {
 
-    private Note currentNote;
-    private NotesSource data;
+    private NotesSourceInterface data;
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
     private Navigation navigation;
     private Publisher publisher;
-    private boolean moveToLastPosition;
+    private boolean moveToFirstPosition;
 
     public static ListOfNotesFragment newInstance() {
         return new ListOfNotesFragment();
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (data == null) {
-            data = new NotesSource(getResources()).init();
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_of_notes, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_list_of_notes, container, false);
         recyclerView = view.findViewById(R.id.notes_recycler_view);
+        data = new NotesSourceFirebase().init(new NotesSourceResponse() {
+            @Override
+            public void initialized(NotesSourceInterface notesData) {
+                adapter.notifyDataSetChanged();
+            }
+        });
         initRecyclerView(recyclerView, data);
         setHasOptionsMenu(true);
+        adapter.setDataSource(data);
+        return view;
     }
 
     @Override
@@ -88,12 +80,19 @@ public class ListOfNotesFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        if (moveToLastPosition) {
-            recyclerView.smoothScrollToPosition(data.size() - 1);
-            moveToLastPosition = false;
-        }
+        adapter = new NotesAdapter(this);
+        recyclerView.setAdapter(adapter);
+        //декоратор
+        DividerItemDecoration itemDecoration = new DividerItemDecoration
+                (Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(Objects.requireNonNull
+                (ContextCompat.getDrawable(getContext(), R.drawable.separator)));
+        recyclerView.addItemDecoration(itemDecoration);
 
-        adapter = new NotesAdapter(data, this);
+        if (moveToFirstPosition && data.size() > 0) {
+            recyclerView.scrollToPosition(0);
+            moveToFirstPosition = false;
+        }
         NotesSourceInterface finalData = data;
         adapter.setOnItemClickListener((position, note) -> {
             navigation.addFragment(NoteFragment.newInstance(finalData.getNote(position)),
@@ -106,32 +105,6 @@ public class ListOfNotesFragment extends Fragment {
                 }
             });
         });
-
-        recyclerView.setAdapter(adapter);
-        //декоратор
-        DividerItemDecoration itemDecoration = new DividerItemDecoration
-                (Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(Objects.requireNonNull
-                (ContextCompat.getDrawable(getContext(), R.drawable.separator)));
-        recyclerView.addItemDecoration(itemDecoration);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(CURRENT_NOTE, currentNote);
-        outState.putParcelable(CURRENT_DATA, data);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            data = savedInstanceState.getParcelable(CURRENT_DATA);
-            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
-        } else {
-            currentNote = data.getNote(0);
-        }
     }
 
     @Override
@@ -155,7 +128,15 @@ public class ListOfNotesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuItem search = menu.findItem(R.id.menu_search);
+        MenuItem sort = menu.findItem(R.id.menu_sort);
         MenuItem addNote = menu.findItem(R.id.menu_add_note);
+        MenuItem send = menu.findItem(R.id.menu_send);
+        MenuItem addPhoto = menu.findItem(R.id.menu_add_photo);
+        search.setVisible(true);
+        sort.setVisible(true);
+        send.setVisible(false);
+        addPhoto.setVisible(false);
         addNote.setOnMenuItemClickListener(item -> {
             navigation.addFragment(NoteFragment.newInstance(), true);
             publisher.subscribe(new Observer() {
@@ -163,7 +144,7 @@ public class ListOfNotesFragment extends Fragment {
                 public void updateNote(Note note) {
                     data.addNote(note);
                     adapter.notifyItemInserted(data.size() - 1);
-                    moveToLastPosition = true;
+                    moveToFirstPosition = true;
                 }
             });
             return true;

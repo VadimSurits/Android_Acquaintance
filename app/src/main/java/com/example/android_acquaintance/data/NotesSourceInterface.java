@@ -1,6 +1,9 @@
-package com.example.android_acquaintance;
+package com.example.android_acquaintance.data;
 
 public interface NotesSourceInterface {
+
+    NotesSourceInterface init(NotesSourceResponse notesSourceResponse);
+
     Note getNote(int position);
 
     int size();
