@@ -1,6 +1,6 @@
 package com.example.android_acquaintance.observe;
 
-import com.example.android_acquaintance.Note;
+import com.example.android_acquaintance.data.Note;
 
 import java.util.ArrayList;
 import java.util.List;

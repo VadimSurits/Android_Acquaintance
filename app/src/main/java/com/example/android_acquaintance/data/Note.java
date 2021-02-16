@@ -1,9 +1,10 @@
-package com.example.android_acquaintance;
+package com.example.android_acquaintance.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Note implements Parcelable {
+    private String id;
     private String title;
     private String content;
     private String creationDate;
@@ -64,19 +65,15 @@ public class Note implements Parcelable {
         return color;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
