@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android_acquaintance.DeleteDialogFragment;
 import com.example.android_acquaintance.MainActivity;
 import com.example.android_acquaintance.Navigation;
+import com.example.android_acquaintance.OnDeleteDialogListener;
 import com.example.android_acquaintance.R;
 import com.example.android_acquaintance.data.Note;
 import com.example.android_acquaintance.data.NotesSourceFirebase;
@@ -119,8 +121,24 @@ public class ListOfNotesFragment extends Fragment {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position = adapter.getMenuPosition();
         if (item.getItemId() == R.id.menu_delete_note) {
-            data.deleteNote(position);
-            adapter.notifyItemRemoved(position);
+            //здесь добавим диалоговое окно
+            DeleteDialogFragment deleteDlgFragment = new DeleteDialogFragment();
+            deleteDlgFragment.setCancelable(false);
+            deleteDlgFragment.setOnDialogListener(new OnDeleteDialogListener() {
+                @Override
+                public void onDelete() {
+                    data.deleteNote(position);
+                    adapter.notifyItemRemoved(position);
+                    deleteDlgFragment.dismiss();
+                }
+
+                @Override
+                public void onCancelDelete() {
+                    deleteDlgFragment.dismiss();
+                }
+            });
+            deleteDlgFragment.show(requireActivity().getSupportFragmentManager(),
+                    "DeleteFragmentTag");
             return true;
         }
         return super.onContextItemSelected(item);
