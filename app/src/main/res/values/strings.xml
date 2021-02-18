@@ -37,5 +37,8 @@
     <string name="new_note">новая заметка</string>
     <string name="menu_delete_note">удалить</string>
     <string name="save_changes">сохранить изменения</string>
+    <string name="delete_note_dialog_title">Вы действительно хотите удалить эту заметку?</string>
+    <string name="delete_note_dialog_button_no">НЕТ</string>
+    <string name="confirm_delete_button">УДАЛИТЬ</string>
 
 </resources>
